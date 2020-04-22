@@ -1,0 +1,75 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>  
+    $(document).ready(function() {
+        $("#submit").click(function(event) {
+            console.log()
+            console.log(JSON.stringify({ "rte": $("#rte").val(), "index": $("#index").val() }));    
+
+            $.ajax({
+			    type: "POST",
+			    url: "http://localhost:5000",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({ "rte": $("#rte").val(), "index": $("#index").val() }),
+    			success: function(data) {
+	    			console.log(data.text)
+                    console.log(data.hyp)
+                    console.log(data.entail)
+
+                    $("#text").text("text: " + data.text);
+                    $("#hyp").text("hyp: " + data.hyp);
+                    $("#entail").text("entail: " + Boolean(data.entail));
+			    },
+			    error: function() {
+				    console.log("Internal Server Error");
+			    }
+            });
+        });
+    });
+
+    </script>
+
+    <style type="text/css">
+        body {
+			 font-family: 'Calibri';	
+		}
+
+        div	{
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        input	{
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        button	{
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    rte:
+    <input id="rte">
+    index:
+    <input id="index">   
+    <button id="submit">Submit</button>    
+    <div id="text">
+    </div>
+    <div id="hyp">
+    </div>
+    <div id="entail">
+    </div>
+</body>
+</html>
